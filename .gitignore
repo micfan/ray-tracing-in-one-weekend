@@ -1,0 +1,14 @@
+Build
+build/
+Win32
+.idea/
+cmake-build-*/
+.vs/
+.vscode/
+*.diff
+*.patch
+foo.*
+*.db
+*.out
+*.o
+*.exe
