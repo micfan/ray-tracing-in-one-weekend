@@ -6,15 +6,29 @@
 
 using namespace std;
 
+bool hit_sphere(const vec3& center, double radius, const ray& r)
+{
+    vec3 oc = r.origin() - center;
+    double a = dot(r.direction(), r.direction());
+    double b = 2.0 * dot(oc, r.direction());
+    double c = dot(oc, oc) - radius*radius;
+    double discriminant = b*b -4*a*c;
+    return discriminant > 0;
+}
+
 vec3 color(const ray& r)
 {
+    if (hit_sphere(vec3{0, 0, -1}, 0.5, r))
+    {
+        return vec3(1, 0, 0);
+    }
     vec3 unit_direction = unit_vector(r.direction());
     double t = 0.5 * (unit_direction.y() + 1.0);
     return (1.0 - t) * vec3{1.0, 1.0, 1.0} + t * vec3{0.5, 0.7, 1.0};
 }
 
 int main() {
-    auto filename = "ch3.ppm";
+    auto filename = "ch4.ppm";
     std::ofstream out(filename);
     cout << "output image: " << filename << endl;
 
