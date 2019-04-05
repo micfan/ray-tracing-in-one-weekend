@@ -2,11 +2,13 @@
 #include <string>
 #include <fstream>
 #include <cfloat>
+#include <random>
 #include "vec3.hpp"
 #include "ray.hpp"
 #include "hitable.hpp"
 #include "hitable_list.hpp"
 #include "sphere.hpp"
+#include "camera.hpp"
 
 
 using namespace std;
@@ -29,14 +31,11 @@ vec3 color(const ray& r, std::shared_ptr<hitable> world)
 }
 
 int main() {
-    auto filename = "ch5.part2.ppm";
+    auto filename = "ch6.ppm";
     std::ofstream out(filename);
     cout << "output image: " << filename << endl;
 
-    vec3 lower_left_corner{-2.0, -1.0, -1.0};
-    vec3 horizontal{4.0, 0.0, 0.0};
-    vec3 vertical{0.0, 2.0, 0.0};
-    vec3 origin{0.0, 0.0, 0.0};
+    camera cam;
 
     auto list = std::vector<hitable_ptr>();
     list.push_back(std::make_shared<sphere>(vec3{0, 0, -1}, 0.5));
@@ -46,17 +45,25 @@ int main() {
 
     int nx = 200;
     int ny = 100;
+    int ns = 100;
     out << "P3\n" << nx << " " << ny << "\n255\n";
+
+    std::default_random_engine rand_gen(1);
+    std::uniform_real_distribution<> rand_dist(0, 1.0);
 
     for (int j = ny - 1; j >= 0; j--) {
         for (int i = 0; i < nx; i++) {
-            double u = double(i) / double(nx);
-            double v = double(j) / double(ny);
-            ray r(origin, lower_left_corner + u*horizontal + v*vertical);
 
-            vec3 p = r.point_at_parameter(2.0);
-            vec3 col = color(r, world);
+            vec3 col{0, 0, 0};
 
+            for (int s = 0; s < ns; s++) {
+                double u = double(i + rand_dist(rand_gen)) / double(nx);
+                double v = double(j + rand_dist(rand_gen)) / double(ny);
+                ray r = cam.get_ray(u, v);
+                vec3 p = r.point_at_parameter(2.0);
+                col += color(r, world);
+            }
+            col /= double(ns);
             int ir = int(255.99 * col[0]);
             int ig = int(255.99 * col[1]);
             int ib = int(255.99 * col[2]);
