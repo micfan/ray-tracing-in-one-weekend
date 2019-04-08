@@ -55,7 +55,7 @@ vec3 color(const ray& r, std::shared_ptr<hitable> world, int depth)
 }
 
 int main() {
-    auto filename = "ch8.part1.ppm";
+    auto filename = "ch8.part2.ppm";
     std::ofstream out(filename);
     cout << "output image: " << filename << endl;
 
@@ -65,8 +65,8 @@ int main() {
 
     list.push_back(std::make_shared<sphere>(vec3{0, 0, -1}, 0.5, std::make_shared<lambertian>(vec3{0.9, 0.3, 0.3})));
     list.push_back(std::make_shared<sphere>(vec3{0, -100.5, -1}, 100, std::make_shared<lambertian>(vec3{0.8, 0.8, 0.0})));
-    list.push_back(std::make_shared<sphere>(vec3{1, 0, -1}, 0.5, std::make_shared<metal>(vec3{0.8, 0.6, 0.2})));
-    list.push_back(std::make_shared<sphere>(vec3{-1, 0, -1}, 0.5, std::make_shared<metal>(vec3{0.8, 0.8, 0.8})));
+    list.push_back(std::make_shared<sphere>(vec3{1, 0, -1}, 0.5, std::make_shared<metal>(vec3{0.8, 0.6, 0.2}, 1.0)));
+    list.push_back(std::make_shared<sphere>(vec3{-1, 0, -1}, 0.5, std::make_shared<metal>(vec3{0.8, 0.8, 0.8}, 0.3)));
 
     auto world = std::make_shared<hitable_list>(list, 4);
 
