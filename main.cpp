@@ -56,7 +56,7 @@ vec3 color(const ray& r, std::shared_ptr<hitable> world, int depth)
 }
 
 int main() {
-    auto filename = "ch9.part1.ppm";
+    auto filename = "ch9.part2.ppm";
     std::ofstream out(filename);
     cout << "output image: " << filename << endl;
 
