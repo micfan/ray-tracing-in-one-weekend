@@ -56,7 +56,7 @@ vec3 color(const ray& r, std::shared_ptr<hitable> world, int depth)
 }
 
 int main() {
-    auto filename = "ch9.part3.ppm";
+    auto filename = "ch10.part1.ppm";
     std::ofstream out(filename);
     cout << "output image: " << filename << endl;
 
@@ -64,13 +64,17 @@ int main() {
 
     auto list = std::vector<hitable_ptr>();
 
-    list.push_back(std::make_shared<sphere>(vec3{0, 0, -1}, 0.5, std::make_shared<lambertian>(vec3{0.1, 0.2, 0.5})));
-    list.push_back(std::make_shared<sphere>(vec3{0, -100.5, -1}, 100, std::make_shared<lambertian>(vec3{0.8, 0.8, 0.0})));
-    list.push_back(std::make_shared<sphere>(vec3{1, 0, -1}, 0.5, std::make_shared<metal>(vec3{0.8, 0.6, 0.2})));
-    list.push_back(std::make_shared<sphere>(vec3{-1, 0, -1}, 0.5, std::make_shared<dielectric>(1.5)));
-    list.push_back(std::make_shared<sphere>(vec3{-1, 0, -1}, -0.45, std::make_shared<dielectric>(1.5)));
+//    list.push_back(std::make_shared<sphere>(vec3{0, 0, -1}, 0.5, std::make_shared<lambertian>(vec3{0.1, 0.2, 0.5})));
+//    list.push_back(std::make_shared<sphere>(vec3{0, -100.5, -1}, 100, std::make_shared<lambertian>(vec3{0.8, 0.8, 0.0})));
+//    list.push_back(std::make_shared<sphere>(vec3{1, 0, -1}, 0.5, std::make_shared<metal>(vec3{0.8, 0.6, 0.2})));
+//    list.push_back(std::make_shared<sphere>(vec3{-1, 0, -1}, 0.5, std::make_shared<dielectric>(1.5)));
+//    list.push_back(std::make_shared<sphere>(vec3{-1, 0, -1}, -0.45, std::make_shared<dielectric>(1.5)));
 
-    auto world = std::make_shared<hitable_list>(list, 5);
+    double R = cos(M_PI/4);
+	list.push_back(std::make_shared<sphere>(vec3{-R, 0, -1}, R, std::make_shared<lambertian>(vec3(0, 0, 1))));
+	list.push_back(std::make_shared<sphere>(vec3{R, 0, -1}, R, std::make_shared<lambertian>(vec3(1, 0, 0))));
+
+    auto world = std::make_shared<hitable_list>(list, 2);
 
     int nx = 200;
     int ny = 100;
