@@ -56,16 +56,22 @@ vec3 color(const ray& r, std::shared_ptr<hitable> world, int depth)
 }
 
 int main() {
-    auto filename = "ch10.part2.ppm";
+    auto filename = "ch11.ppm";
     std::ofstream out(filename);
     cout << "output image: " << filename << endl;
 
+	vec3 lookfrom(3, 3, 2);
+	vec3 lookat(0, 0, -1);
+    double aperture = 2.0;
+    double dist_to_focus = (lookfrom - lookat).length();
     camera cam{
-    	vec3(-2, 2, 1),
-		vec3(0, 0, -1),
+    	lookfrom,
+    	lookat,
 		vec3(0, 1, 0),
-		90,
-		double(16)/double(9)
+		20,
+		double(16)/double(9),
+		aperture,
+		dist_to_focus
     };
 
     auto list = std::vector<hitable_ptr>();
